@@ -1,1 +1,5 @@
 
+Esta é so uma aplicação basica de algums algoritmos para predizer o valor dos imoveis n bairo de jardim camburi.
+
+Usamos principalmente numpy e sklearn para analisar esses dados.
+Os algoritmos por hora são DecisionTreee e RadomForest
