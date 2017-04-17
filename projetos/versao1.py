@@ -27,7 +27,7 @@ with open("C:/Datasets/Apartamentos/apartamentos_JC.csv") as fille:
     x_data = np.array(x_data)
     y_data = np.array(y_data)
 
-#----------------------------------------------------    
+#----------------------------------------------------
 #A partir daqui iremos preparar os dados para o algoritmo e analise
 
 #Aqui se lida com a quantidade de quartos.
@@ -63,8 +63,8 @@ def de_acordo_c_quartos(data):
             data[x][2] = np.mean([float(y[2]) for y in cinco_q if y[2] != ''])
     return np.array(data)
 
-#feito isso vamos passar os novos valores        
-x_data[x_data[:,2] == ''] = de_acordo_c_quartos(x_data[x_data[:,2] == ''])            
+#feito isso vamos passar os novos valores
+x_data[x_data[:,2] == ''] = de_acordo_c_quartos(x_data[x_data[:,2] == ''])
 
 #Aqui lidei com o condominio
 #Usei a média para lidar com os valores
@@ -88,7 +88,7 @@ df = pd.DataFrame(x_data,columns=features)
 # Irei fazer um Ensembler para regressão.
 # Se você esta lendo isso Deus tenha piedade de sua Alma.
 
-#Começamos com uma CART trabalhei algumas funções para achar boms paramentros
+#Começamos com uma CART trabalhei algumas funções para achar bons paramentros
 #Fiz algumas funções para lidar com elas em teste de desempenho.
 clf = DecisionTreeRegressor(max_depth = 4,criterion="mae",max_features = 4,
                             min_samples_split=40,min_samples_leaf=0.009,
@@ -103,7 +103,7 @@ forest.fit(x_train,y_train)
 
 
 #------------------------------------------------------------------------------
-#Nessa parte fica os teste de desempenho
+#Nessa parte fica os testes de desempenho
 #Vamos começar com um teste simples
 def make_acuraccy(clf,x,y):
     erro = 0
@@ -120,7 +120,7 @@ def make_depth_test(x_train,y_train,x_test,y_test,max_depth_range=2,model="DTR")
         function = DecisionTreeRegressor
     else:
         function = RandomForestRegressor
-    
+
     texts = []
     for x in range(1,max_depth_range+1):
         clf = function(max_depth=x)
@@ -138,7 +138,7 @@ def make_min_samples_test(x_train,y_train,x_test,y_test,test_range=2):
         texts.append(make_acuraccy(clf,x_test,y_test))
     return texts
 
-#Esta função é uzada para achar a melhor profundidade da arvore.
+#Esta função é usada para achar a melhor profundidade da arvore.
 #Ainda em desenvolvimento
 #Alerta: exige muito processamento.
 def forest_size(x_train,y_train,x_test,y_test,test_range=2):
@@ -148,7 +148,7 @@ def forest_size(x_train,y_train,x_test,y_test,test_range=2):
         clf.fit(x_train,y_train)
         texts.append(make_acuraccy(clf,x_test,y_test))
      return texts
-    
+
 
 
 
@@ -164,11 +164,3 @@ forest_deth = make_depth_test(x_train,y_train,x_test,y_test,100,model="RF")
 
 
 #min_sample_tree = make_min_samples_test(x_train,y_train,x_test,y_test,test_range=100)
-
-
-
-
-
-
-
-
