@@ -1,1 +1,10 @@
 
+O código foi separado em 3 partes:
+
+Recebimento: Aqui irei criar as classes para lidar com varios tipos de arquivos assim como se comunicar com os bancos de
+dados futuramente.
+
+Analise: Nessa pasta estão varias funções especificas para Analise de dados e também para ajudar na escolha do melhor algorítmo
+aqui por exemplo temos uma função para achar os imoveis que o preço difere muito do proposto pelo modelo.
+
+Model:Aqui se encontra os algoritmos que serão usados para analise dos dados.
