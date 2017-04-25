@@ -7,17 +7,18 @@ from requests import get
 
 
 class Paging(object):
-    def __new__(cls, link_target):
+    def __new__(cls, link_target, proxies=None):
         if isinstance(link_target, str):
             return super(Paging, cls).__new__(cls)
         else:
             raise ValueError("link_target must be a string.")
 
-    def __init__(self, link_target):
+    def __init__(self, link_target, proxies):
         self.link_target = link_target
-        self.page = get(self.link_target)
+        self.page = get(self.link_target, proxies=proxies)
         self.content = bs(self.page.text, "html.parser")
         self.list = self.content.find("ul", {"id":"main-ad-list"})
+        self.current_page = int(self.content.find("li", class_="item number active").text)
 
     def get_links(self):
         self.list_links = []

@@ -7,10 +7,11 @@ from requests import get
 
 
 class House_apart(object):
-    def __init__(self, text, price, link=None):
+    def __init__(self, text, price, link=None, proxies=None):
         self.text = text.text
         self.price = price.text
         self.link = link
+        self.proxies = proxies
         self.regex_list = {"bedroom":"[0-9]+ q", "size":"[0-9]+ m", "condominium":"\$ [0-9]+", "garage":"[0-9]+ v"}
         self.regex_sub_list = {"bedroom": " q", "size":" m", "condominium":"\$ ", "garage":" v"}
         self.regex_price = ["R\$ ", "\."]
@@ -33,7 +34,7 @@ class House_apart(object):
 
     def get_cep(self):
         if self.link:
-            page = get(self.link)
+            page = get(self.link, proxies=self.proxies)
             content = bs(page.text, "html.parser")
             self.cep = fd("[0-9]{5}-[0-9]{3}", content.text)
             self.cep = sub("-", "", self.cep[0])
