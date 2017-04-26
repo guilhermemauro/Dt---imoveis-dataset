@@ -13,7 +13,7 @@ class Paging(object):
         else:
             raise ValueError("link_target must be a string.")
 
-    def __init__(self, link_target, proxies):
+    def __init__(self, link_target, proxies=None):
         self.link_target = link_target
         self.page = get(self.link_target, proxies=proxies)
         self.content = bs(self.page.text, "html.parser")
@@ -26,6 +26,14 @@ class Paging(object):
         for link in self.list_a_tags:
             self.list_links.append(str(link.get('href')))
         return self.list_links
+
+    def get_titles(self):
+        self.list_title = []
+        for title in self.list.find_all("h3", class_="OLXad-list-title mb5px"):
+            title = sub("\\t", "", title.text)
+            title = sub("\\n", "", title)
+            self.list_title.append(title)
+        return self.list_title
 
     def descr_order_all(self):
         self.character = self.list.find_all("p", class_="text detail-specific mt5px")
