@@ -1,4 +1,4 @@
-import scrape_olx.adtools as adtools
+import scrape_olx.adtools as Adtools
 from scrape_olx.paging import Paging
 
 
