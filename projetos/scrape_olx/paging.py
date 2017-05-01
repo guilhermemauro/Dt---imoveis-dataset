@@ -27,6 +27,13 @@ class Paging(object):
             self.list_links.append(str(link.get('href')))
         return self.list_links
 
+    def get_ids(self):
+        list_ids = []
+        list_a_tags = self.list.find_all("a", class_="OLXad-list-link")
+        for ids in list_a_tags:
+            list_ids.append(int(ids.get('id')))
+        return list_ids
+
     def get_titles(self):
         self.list_title = []
         for title in self.list.find_all("h3", class_="OLXad-list-title mb5px"):
