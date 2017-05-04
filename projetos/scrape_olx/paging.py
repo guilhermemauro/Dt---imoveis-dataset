@@ -39,7 +39,7 @@ class Paging(object):
         for title in self.list.find_all("h3", class_="OLXad-list-title mb5px"):
             title = sub("\\t", "", title.text)
             title = sub("\\n", "", title)
-            self.list_title.append(title)
+            self.list_title.append(str(title))
         return self.list_title
 
     def descr_order_all(self):
