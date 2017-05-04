@@ -10,8 +10,8 @@ from pytesseract import image_to_string
 
 class House_apart(object):
     def __init__(self, text, price, link=None, proxies=None):
-        #self.text = text.text
-        #self.price = price.text
+        self.text = text.text
+        self.price = price.text
         self.link = link
         self.proxies = proxies
         self.regex_list = {"bedroom":"[0-9]+ q", "size":"[0-9]+ m", "condominium":"\$ [0-9]+", "garage":"[0-9]+ v"}
@@ -47,12 +47,29 @@ class House_apart(object):
         if self.link != None:
             page= get(self.link, proxies=self.proxies)
             content = bs(page.text, "html.parser")
+
+            #get name of the seller
             self.seller_name = content.find("li", class_="item owner mb10px ")
-            self.seller_contact = str(content.find("span", {"id":"visible_phone"}).img['src'])
-            page = get("http:{}".format(self.seller_contact), proxies=self.proxies)
-            self.seller_name = sub("\\n", "", self.seller_name.text)
-            if page.status_code == 200:
-                self.seller_contact = image_to_string(Image.open(sio(page.content)))
+            if self.seller_name == None:
+                self.seller_name = content.find('li', class_="item owner mb10px  haslogo")
+                if self.seller_name != None:
+                    self.seller_name = self.seller_name.p.text.encode('utf-8')
+                    self.seller_name = sub("\\n", "", self.seller_name)
+                else:
+                    self.seller_name = None
+            else:
+                self.seller_name = self.seller_name.p.text.encode('utf-8')
+                self.seller_name = sub("\\n", "", self.seller_name)
+
+            #get seller's phone
+            self.seller_contact = content.find("span", {"id":"visible_phone"})
+            if self.seller_contact != None:
+                self.seller_contact = str(self.seller_contact.img['src'])
+                page = get("http:{}".format(self.seller_contact), proxies=self.proxies)
+                if page.status_code == 200:
+                    self.seller_contact = image_to_string(Image.open(sio(page.content)))
+                else:
+                    self.seller_contact = None
             else:
                 self.seller_contact = None
 
